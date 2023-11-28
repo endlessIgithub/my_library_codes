@@ -1,0 +1,27 @@
+# Define a class named MySelectQuery
+class MySelectQuery:
+  # Define the constructor method that takes a csv_content parameter
+  def __init__(self, csv_content):
+    # Split the csv_content by newline characters and assign it to an attribute named data
+    self.data = csv_content.split("\n")
+    # Assign the first element of data (the column names) to an attribute named columns
+    self.columns = self.data[0]
+    # Remove the first element of data (the column names) from data
+    self.data.pop(0)
+
+# Define a where method that takes column_name and criteria as parameters
+  def where(self, column_name, criteria):
+    # Initialize an empty list for results
+    results = []
+    # Find the index of the column_name in columns
+    column_index = self.columns.split(",").index(column_name)
+    # Loop through each row in data
+    for row in self.data:
+      # Split the row by comma and assign it to a variable named values
+      values = row.split(",")
+      # Check if the value at column_index matches the criteria
+      if values[column_index] == criteria:
+        # If it does, append the row to results
+        results.append(row)
+    # Return results as an array of strings
+    return results
