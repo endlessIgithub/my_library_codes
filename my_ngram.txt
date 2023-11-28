@@ -1,0 +1,91 @@
+my_ngram.c
+
+#include <stdio.h>
+
+void first_code(int *len, char* abc)
+{
+    int q = 0;
+    while (abc[q] != '\0')
+    {
+        if (abc[q] != '\"') 
+        {
+            len[(int)abc[q]] += 1;
+        }
+        q++;
+    }
+}
+
+void second_code(int *len,int size_len)
+{
+    int c = 0;
+    while(c < size_len)
+    {
+        if(len[c] > 0)
+        {
+            printf("%c:%d\n",c,len[c]);
+        }
+        c++;
+    }
+}
+
+int main(int ac,char**av)
+{
+    int ascii[127] = {0};
+    int t = 1;
+    while(t < ac)
+    {
+       first_code(&ascii[0],av[t]);
+       t++;
+    }
+    second_code(&ascii[0],127);
+    return 0;
+}
+
+Makefile
+
+s
+263 B
+Raw
+Permalink
+Blame
+History
+  
+TARGET = my_ngram
+OBJ = my_ngram.o
+SRC = my_ngram.c
+CFLAGS = -Wall -Wextra -Werror
+
+all : my_ngram
+
+$(TARGET) : $(OBJ)
+	gcc $(CFLAGS) -o $(TARGET) $(OBJ) 
+
+$(OBJ) : $(SRC)
+	gcc $(CFLAGS) -c $(SRC)
+
+clean:
+	rm -f *.o
+
+fclean: clean
+	rm -f $(TARGET)
+
+re: fclean all
+
+
+Mastermind is a game composed of 9 pieces of different colors.
+A secret code is then composed of 4 distinct pieces.
+
+The player has 10 attempts to find the secret code.
+After each input, the game indicates to the player the number of well placed pieces and the number of misplaced pieces.
+
+Pieces will be '0' '1' '2' '3' '4' '5' '6' '7' '8'.
+
+If the player finds the code, he wins, and the game stops.
+A misplaced piece is a piece that is present in the secret code butthat is not in a good position.
+
+You must read the player's input from the standard input.
+
+Your program will also receive the following parameters:
+-c [CODE]: specifies the secret code. If no code is specified, a random code will be generated.
+-t [ATTEMPTS]: specifies the number of attempts; by default, the playerhas 10 attempts.
+

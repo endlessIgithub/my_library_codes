@@ -1,0 +1,17 @@
+def my_roman_numerals_converter(param):
+    num = [1,4,5,9,10,40,50,90,100,400,500,900,1000]
+    rom_num = ["I",'IV','V','IX','X','XL','L','XC','C','CD','D','CM','M']
+    i = 12
+    x = param
+    roman_numeral = ''
+    while x != 0:
+        if num[i] <= x:
+            roman_numeral += rom_num[i]
+            x = x - num[i]
+        else:
+            i -= 1
+    return roman_numeral
+
+Write a function to convert normal numbers to Roman Numerals.
+
+The Romans wrote numbers using letters - I, V, X, L, C, D, M. 

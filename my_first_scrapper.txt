@@ -1,0 +1,55 @@
+import requests
+from bs4 import BeautifulSoup
+
+
+
+def request_github_trending(url):
+    return requests.get(url)
+
+
+def extract(page):
+    soup = BeautifulSoup(page.text, "html.parser")
+    return soup.find_all("article")
+
+
+def transform(html_repos):
+    result = []
+    for row in html_repos:
+        rep_name = ''.join(row.select_one('h1.h3.lh-condensed').text.split())
+
+        nummer_stars = ' '.join(row.select_one('span.d-inline-block.float-sm-right').text.split())
+
+        dev_name = row.select_one('img.avatar.mb-1.avatar-user')['alt']
+        result.append({'developer': dev_name, 'repository_name': rep_name, 'nbr_stars': nummer_stars})
+
+    return result
+
+
+def format(self):
+    url = 'https://github.com/trending'
+    page = request_github_trending(url)
+    html_repos = extract(page)
+    repositories_data = transform(html_repos)
+
+    result = ["developer, repository_name, nbr_stars"]
+
+    for rep in repositories_data:
+        row = [rep['developer'], rep['repository_name'], rep['nbr_stars']]
+        result.append(', '.join(row))
+
+    return '\n'.join(result).strip()
+
+
+Part 0: Request
+Write a function prototyped: def request_github_trending(url) it will return the result of Request.
+
+Part 1: Extract
+Write a function prototyped: def extract(page) to find_all instances of HTML code of repository rows and return it. You should use BeautifulSoup. :-)
+
+Part 2: Transform
+Write a function prototyped: def transform(html_repos) taking an array of all the instances of HTML code of the repository row.
+It will return an array of hash following this format: [{'developer': NAME, 'repository_name': REPOS_NAME, 'nbr_stars': NBR_STARS}, ...]
+
+Part 3: Format
+Write a function prototyped: def format(repositories_data) taking a repository array of hash and transforming it and returning it into a CSV string. Each column will be separated by , and each line by \n
+The columns will be Developer,Repository Name,Number of Stars

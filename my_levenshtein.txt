@@ -1,0 +1,15 @@
+def my_levenshtein(param_1, param_2):
+    if len(param_1) != len(param_2):
+        return -1
+    n = 0
+    for i in range(len(param_1)):
+        if param_1[i] !=  param_2[i]:
+            n += 1
+    return n
+
+
+
+Your job is to write an algorithm that calculates the Qwasar version of a Levenshtein number between two words.
+
+The Qwasar version of a Levenshtein number is simple: it's a value that represents how similar two given strings are.
+It is found by comparing two strings and returning the difference between them. 

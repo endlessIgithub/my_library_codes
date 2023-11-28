@@ -1,0 +1,74 @@
+from flask import Flask, request
+import json, csv
+from config import configs
+
+
+def create_app(environment='development'):
+    app = Flask(__name__)
+    app.config.from_object(configs[environment])
+
+    # Register all your endpoints here.
+    # from views import ....
+    # app.register_blueprint()
+    @app.route('/')
+    def get():
+        genre = request.args.get("genre")
+        return json.dumps(sorting_csv(genre))
+
+    @app.route('/action')
+    def action():
+        return json.dumps(sorting_csv("action"))
+
+    @app.route('/adventure')
+    def adventure():
+        return json.dumps(sorting_csv("adventure"))
+
+    @app.route('/comedy')
+    def comedy():
+        return json.dumps(sorting_csv("comedy"))
+
+    @app.route('/romance')
+    def romance():
+        return json.dumps(sorting_csv("romance"))
+
+    @app.route('/drama')
+    def drama():
+        return json.dumps(sorting_csv("drama"))
+
+    return app
+
+
+def sorting_csv(genre):
+    with open("imdb-movie-data.csv", "r+") as file:
+        file = csv.DictReader(file, delimiter=',')
+        movies = []
+        counter = 0
+        for i in file:
+            if counter == 0:
+                pass
+            if i["Genre"].lower().__contains__(genre):
+                movies.append({
+                    "Rank": i["Rank"],
+                    "Title": i["Title"],
+                    "Genre": i["Genre"],
+                    "Description": i["Description"],
+                    "Director": i["Director"],
+                    "Actors": i["Actors"],
+                    "Year": i["Year"],
+                    "Runtime (Minutes)": i["Runtime (Minutes)"],
+                    "Rating": i["Rating"],
+                    "Votes": i["Votes"],
+                    "Revenue (Millions)": i["Revenue (Millions)"],
+                    "Metascore": i["Metascore"]
+                })
+    return movies
+
+
+Create a backend app with a light web framework. (For python we recommend using flask.)
+It will listen on port 8080.
+
+All your routes will answer in JSON format!
+
+You don't need to create a database, just parse the provided CSV.
+
+Your backend will serve six routes:
