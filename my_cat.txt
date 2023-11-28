@@ -1,13 +1,8 @@
+We had to create a program called my_cat which does the same thing as the system's cat command used in the command-line.
+
 import sys
 
 for i in sys.argv[1:]:
     file = open(i, 'r+')
     print(file.read().strip())
     file.close()
-
-It's your turn to code the software cat!
-
-Create a program called my_cat which does the same thing as the system's cat command used in the command-line.
-
-Your program should read the content of each files which are received as an argument to your software.
-Unlike the real Cat command, you don't have to handle any options. :-)
